@@ -1,5 +1,6 @@
 import React from 'react';
 import SymptomChecker from './components/SymptomChecker';
+import PharmacyFirstEligibilityChecker from './components/PharmacyFirstEligibilityChecker';
 
 function App() {
   return (
@@ -8,7 +9,7 @@ function App() {
         <h1>InstaDoc Symptom Checker</h1>
       </header>
       <main>
-        <SymptomChecker />
+        <PharmacyFirstEligibilityChecker/>
       </main>
     </div>
   );

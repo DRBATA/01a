@@ -107,10 +107,18 @@ Red Flags: ${userInputs.redFlags.join(', ') || 'None'}
     }
   };
 
-  const handleSendToGP = (type: 'surgery' | 'private') => {
-    setGpType(type);
-    // Implement the logic to send the summary to the chosen GP type
-    alert(`Summary sent to ${type === 'surgery' ? 'GP surgery' : 'private GP'}`);
+  const handleDownloadReport = () => {
+    if (summary) {
+      const blob = new Blob([summary], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'symptom_report.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
   };
 
   const resetForm = () => {
@@ -276,7 +284,7 @@ Red Flags: ${userInputs.redFlags.join(', ') || 'None'}
             </div>
           )}
 
-          {step === 4 && result && (
+{step === 4 && result && (
             <div>
               <h2 className="text-2xl font-semibold text-gray-700 mb-4 text-center">Result</h2>
               <p className="text-lg text-gray-800 mb-4 text-center">{result}</p>
@@ -284,18 +292,12 @@ Red Flags: ${userInputs.redFlags.join(', ') || 'None'}
                 <div className="bg-gray-100 rounded-xl p-4">
                   <h3 className="font-semibold text-gray-700 mb-2">Summary:</h3>
                   <pre className="whitespace-pre-wrap text-gray-700">{summary}</pre>
-                  <div className="flex justify-center mt-4 space-x-4">
+                  <div className="flex justify-center mt-4">
                     <button
-                      className="p-2 bg-green-500 text-white rounded-xl hover:bg-green-600 focus:outline-none"
-                      onClick={() => handleSendToGP('surgery')}
+                      className="p-2 bg-blue-500 text-white rounded-xl hover:bg-blue-600 focus:outline-none"
+                      onClick={handleDownloadReport}
                     >
-                      Send to GP Surgery
-                    </button>
-                    <button
-                      className="p-2 bg-purple-500 text-white rounded-xl hover:bg-purple-600 focus:outline-none"
-                      onClick={() => handleSendToGP('private')}
-                    >
-                      Send to Private GP
+                      Download Report
                     </button>
                   </div>
                 </div>
